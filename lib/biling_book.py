@@ -22,8 +22,8 @@ END = '''
 '''
 
 import json
-def make_book(name, author, url, npage):
-    # book = parse_study_english_words(url, npage)
+def make_book(name: str, author: str, url: str, npage: int) -> None:
+    book = parse_study_english_words(url, npage)
     book = json.load(open('../../../books_to_print'))[1]
     book_output = print_book(book, name, BEGIN.format(author, name), END)
     with open(name.lower().replace(' ', '_') + '.fb2', 'w') as fout:

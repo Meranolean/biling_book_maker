@@ -1,9 +1,11 @@
+import typing as tp
+
 d0 = '\n'
 d1 = '\n  '
 d2 = '\n    '
 d3 = '\n      '
 
-def normalize(string):
+def normalize(string: str) -> str:
     string = string.replace('\r', '').replace('\n', '')
     while string[0] == ' ':
         string = string[1: ]
@@ -12,7 +14,7 @@ def normalize(string):
     return string
 
 
-def find_chapters(book, begin, end):
+def find_chapters(book: tp.List[tp.Tuple[str, str]], begin: int, end: int) -> tp.List[int]:
     chapters_id = []
     for i, (eng, rus) in enumerate(book[begin: end]):
         norm_eng = normalize(eng)
@@ -21,7 +23,7 @@ def find_chapters(book, begin, end):
     chapters_id.append(end)
     return chapters_id
 
-def find_parts(book):
+def find_parts(book: tp.List[tp.Tuple[str, str]]) -> tp.List[int]:
     part_id = []
     for i, (eng, rus) in enumerate(book):
         norm_eng = normalize(eng)
@@ -31,7 +33,7 @@ def find_parts(book):
     return part_id
 
 
-def print_chapter_table(book, begin, end, string):
+def print_chapter_table(book: tp.List[tp.Tuple[str, str]], begin: int, end: int, string: str) -> str:
     string += d0 + '<table>'
     for j in range(begin, end):
         eng, rus = book[j]
@@ -40,9 +42,10 @@ def print_chapter_table(book, begin, end, string):
         string += d2 + '<td>' + normalize(rus) + '</td>'
         string += d1 + '</tr>'
     string += d0 + '</table>'
+    return string
 
 
-def print_chapter(book, begin, end, string):
+def print_chapter(book: tp.List[tp.Tuple[str, str]], begin: int, end: int, string: str) -> str:
     for j in range(begin, end):
         eng, rus = book[j]
         string += d1 + '<p>' + normalize(eng) + '</p>'
@@ -51,7 +54,7 @@ def print_chapter(book, begin, end, string):
     return string
 
 
-def print_part(book, begin, end, string):
+def print_part(book: tp.List[tp.Tuple[str, str]], begin: int, end: int, string: str) -> str:
     chapter_to_write = find_chapters(book, begin, end)
     for chapter_begin, chapter_end in zip(chapter_to_write[: -1], chapter_to_write[1:]):
         string += d0 + '<section>' + d1 + '<title>' + d2 + '<p>' + \
@@ -63,7 +66,7 @@ def print_part(book, begin, end, string):
     return string
 
 
-def print_book(book, book_name, BEGIN, END):
+def print_book(book: tp.List[tp.Tuple[str, str]], book_name: str, BEGIN: str, END: str) -> str:
     string = BEGIN
     string += d1 + '<title>' + d2 + '<p><strong>' + book_name + '</strong></p>' + d1 + '</title>'
     
